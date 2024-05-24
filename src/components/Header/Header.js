@@ -1,18 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { COLORS, WEIGHTS } from '../../constants';
+import { COLORS, WEIGHTS, QUERIES } from '../../constants';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
+import Icon from '../Icon';
 import MobileMenu from '../MobileMenu';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
-
-  // For our mobile hamburger menu, we'll want to use a button
-  // with an onClick handler, something like this:
-  //
-  // <button onClick={() => setShowMobileMenu(true)}>
 
   return (
     <header>
@@ -29,7 +25,11 @@ const Header = () => {
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
         </Nav>
-        <Side />
+        <Side>
+          <SideButton> <Icon id="shopping-bag" color={COLORS.gray[900]} size="24px" strokeWidth="2px" /> </SideButton>
+          <SideButton> <Icon id="search" color={COLORS.gray[900]} size="24px" strokeWidth="2px" /></SideButton>
+          <SideButton> <Icon id="menu" color={COLORS.gray[900]} size="24px" strokeWidth="2px" onClick={() => setShowMobileMenu(true)}/></SideButton>
+        </Side>
       </MainHeader>
 
       <MobileMenu
@@ -40,22 +40,50 @@ const Header = () => {
   );
 };
 
+const ResponsiveSuperHeader = styled(SuperHeader)`
+  display: none;
+`;
+
 const MainHeader = styled.div`
   display: flex;
   align-items: baseline;
   padding: 18px 32px;
   height: 72px;
   border-bottom: 1px solid ${COLORS.gray[300]};
+
+  @media(${QUERIES.tabletAndDown}) {
+    border-top: 4px solid ${COLORS.gray[900]};
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const Nav = styled.nav`
   display: flex;
   gap: 48px;
   margin: 0px 48px;
+
+  @media(${QUERIES.tabletAndDown}) {
+    display: none;
+  }
 `;
 
 const Side = styled.div`
-  flex: 1;
+  display: none;
+
+  @media(${QUERIES.tabletAndDown}) {
+    display: flex;
+    gap: 2rem;
+  }
+
+  @media(${QUERIES.phoneAndDown}) {
+    gap: 1rem;
+  }
+`;
+
+const SideButton = styled.button`
+  background: transparent;
+  border: none;
 `;
 
 const NavLink = styled.a`
